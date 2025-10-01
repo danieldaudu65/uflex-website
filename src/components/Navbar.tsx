@@ -2,7 +2,7 @@ import { useState } from "react";
 import { login, logo, user, whatsapp } from "../assets";
 import { FaTimes } from "react-icons/fa";
 import { FaBarsStaggered } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import ModalWrapper from "./modalParent";
@@ -13,13 +13,14 @@ const Navbar: React.FC = () => {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
 
+    const navigate = useNavigate()
     const handleDropdownToggle = () => setIsLoginOpen((prev) => !prev);
     const handleLoginClick = () => {
         setIsLoginOpen(false); // close dropdown
         setOpenLoginModal(true); // open modal
     };
 
-    
+
     const navLinks = [
         { label: "Home", path: "/" },
         { label: "Service", path: "/projects" },
@@ -73,10 +74,17 @@ const Navbar: React.FC = () => {
                     </motion.li>
                 ))}
                 <motion.li variants={itemVariants}>
-                    <button className="bg-green-main text-white px-4 py-2 rounded-lg transition hover:opacity-90">
+                    <button
+                        onClick={() => {
+                            navigate('/booking');
+                            setIsOpen(false); // close mobile menu after navigation
+                        }}
+                        className="bg-green-main text-black w-full py-2 rounded-lg transition hover:opacity-90"
+                    >
                         Get Started
                     </button>
                 </motion.li>
+
             </motion.ul>
 
             {/* Icons */}
@@ -152,7 +160,12 @@ const Navbar: React.FC = () => {
                                 </motion.li>
                             ))}
                             <motion.li variants={itemVariants}>
-                                <button className="bg-green-main text-black w-full py-2 rounded-lg transition hover:opacity-90">
+                                <button
+                                    onClick={() => {
+                                        navigate('/booking');
+                                        setIsOpen(false); // close mobile menu
+                                    }}
+                                    className="bg-green-main text-black w-full py-2 rounded-lg transition hover:opacity-90">
                                     Get Started
                                 </button>
                             </motion.li>

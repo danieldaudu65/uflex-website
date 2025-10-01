@@ -29,7 +29,7 @@ const blogs = [
   }
 ]
 
-const Blog = () => {
+const Blog:React.FC = () => {
   const [openBlog, setOpenBlog] = useState<number | null>(null);
 
   const toggleBlog = (id: number) => {

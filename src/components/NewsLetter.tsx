@@ -1,6 +1,6 @@
 import React from "react";
 
-const NewsLetter = () => {
+const NewsLetter:React.FC = () => {
   return (
     <section className="bg-[#F5F5F5] py-24 px-6">
       <div className="max-w-2xl mx-auto text-center">

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Subscribe = () => {
+const Subscribe:React.FC = () => {
   return (
     <div>Subscribe</div>
   )

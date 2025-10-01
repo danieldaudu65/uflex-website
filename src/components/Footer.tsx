@@ -2,7 +2,7 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { ig, logo, tiktok, X, Link } from "../assets";
 
-const Footer = () => {
+const Footer:React.FC = () => {
   return (
     <footer className="p-6 mt-1 bg-gray-50 border-t border-gray-200">
       {/* Logo + Description */}

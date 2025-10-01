@@ -1,7 +1,7 @@
 import React from "react";
 import { homeimg } from "../assets";
 
-const Landing = () => {
+const Landing:React.FC = () => {
   return (
     <section className="bg-green-secondary py-12">
       <div className="container mx-auto flex flex-col md:flex-row items-center px-6 md:px-12 gap-8">

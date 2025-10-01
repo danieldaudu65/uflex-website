@@ -28,7 +28,7 @@ const offers = [
   },
 ];
 
-const Offer = () => {
+const Offer:React.FC = () => {
   return (
     <div className="py-24 px-6 md:px-12 bg-gray-50">
       <h2 className="text-center text-2xl md:text-3xl font-bold text-green-900 mb-12">
