@@ -27,59 +27,80 @@ const testimonials = [
   },
 ];
 
-
-
 const Testimonials: React.FC = () => {
   const settings = {
     dots: true,
     infinite: true,
     autoplay: true,
-    speed: 500,
-    slidesToShow: 1,
+    speed: 600,
+    slidesToShow: 2, // Default for desktop
     slidesToScroll: 1,
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024, // tablets & small laptops
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 640, // mobile
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <section className="py-22 px-6">
-      <h2 className="text-center text-2xl md:text-3xl font-bold text-green-900 mb-8">
+    <section className="py-16 px-4 sm:px-6 lg:px-10 bg-gray-50">
+      <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold text-green-main mb-10 leading-snug">
         We know testimonials drive trust —
-        <br />
+        <br className="hidden sm:block" />
         here’s why people trust us
       </h2>
 
-      <Slider {...settings} className="max-w-xl mx-auto">
-        {testimonials.map((t, index) => (
-          <div key={index} className="p-6 border  border-gray-300  bg-white rounded-xl shadow-md">
-            {/* Avatar */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 flex items-center justify-center bg-green-100 rounded-full font-bold text-green-700">
-                {t.initials}
-              </div>
-              <div>
-                <p className="font-medium">{t.name}</p>
-                <p className="text-xs text-gray-500">{t.date}</p>
+      <div className="max-w-5xl mx-auto">
+        <Slider {...settings}>
+          {testimonials.map((t, index) => (
+            <div key={index} className="px-3">
+              <div className="p-6 sm:p-8 bg-white border border-gray-200 rounded-2xl shadow-md h-full flex flex-col justify-between">
+                {/* Avatar + Info */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-green-100 rounded-full font-bold text-green-700 text-lg">
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">{t.name}</p>
+                    <p className="text-xs text-gray-500">{t.date}</p>
+                  </div>
+                </div>
+
+                {/* Stars */}
+                <div className="flex mb-3">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className={`text-lg ${
+                        i < t.rating ? "text-yellow-400" : "text-gray-300"
+                      }`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+
+                {/* Testimonial text */}
+                <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                  {t.text}
+                </p>
               </div>
             </div>
-
-            {/* Stars */}
-            <div className="flex mb-3">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`text-lg ${i < t.rating ? "text-yellow-400" : "text-gray-300"
-                    }`}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-
-            {/* Testimonial text */}
-            <p className="text-gray-700 text-sm">{t.text}</p>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      </div>
     </section>
   );
 };

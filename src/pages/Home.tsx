@@ -5,6 +5,7 @@ import Footer from '../components/Footer'
 import NewsLetter from '../components/NewsLetter'
 import Testimonials from '../components/Testimonials'
 import Offer from '../components/Offer'
+import CarCategories from '../components/CarCategories'
 
 const Home: React.FC = () => {
     return (
@@ -12,6 +13,7 @@ const Home: React.FC = () => {
             <Navbar />
             <Landing />
             <Offer />
+            <CarCategories />
             <Testimonials />
             <NewsLetter />
             <Footer />

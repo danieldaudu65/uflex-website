@@ -7,10 +7,17 @@ import { API_URL } from "../utils/confiq";
 import LogoLoader from "./LogoLoader";
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+interface SignupProps {
+    onClose: () => void; // ✅ close modal
+}
+
+const Signup: React.FC<SignupProps> = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [mode, setMode] = useState<"login" | "signup" | "forgot" | "verify">("login");
+
 
     const navigate = useNavigate()
     // Form state
@@ -20,6 +27,8 @@ const Signup = () => {
         email: "",
         phoneNumber: "",
         password: "",
+        otp: "",
+        newPassword: ""
     });
 
     const toggleForm = () => setIsLogin((prev) => !prev);
@@ -27,6 +36,7 @@ const Signup = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,31 +56,31 @@ const Signup = () => {
 
             const data = await res.json();
 
-            // Store result in a temp variable (don’t toast yet)
             if (!res.ok) {
                 setTimeout(() => toast.error(data.msg || "Something went wrong"), 5000);
                 return;
             }
-
             setTimeout(() => {
                 toast.success(data.msg);
-
                 if (isLogin && data.token) {
+                    // ✅ Login success
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("user", JSON.stringify(data.user));
+                    if (typeof onClose === "function") onClose();
+                    navigate("/booking");
+                } else if (!isLogin) {
+                    // ✅ Signup success → switch to login form
+                    setIsLogin(true);
                 }
-
-                // wait 500ms before navigating so toast is visible
-                setTimeout(() => navigate("/booking"), 500);
             }, 5000);
 
         } catch (err: any) {
             setTimeout(() => toast.error(err.message), 5000);
         } finally {
-            // End loader after 5s
             setTimeout(() => setLoading(false), 5000);
         }
     };
+
 
     // Animation
     const sideVariants = {
@@ -179,7 +189,6 @@ const Signup = () => {
                             className="border placeholder:text-xs outline-green-main hover:border-green-main border-gray-200 p-2 rounded-md"
                         />
                     </motion.div>
-
                     <AnimatePresence mode="wait">
                         {!isLogin && (
                             <motion.div
@@ -231,7 +240,14 @@ const Signup = () => {
                         </span>
                     </motion.div>
 
-                    {isLogin && <p className="text-green-main text-xs mb-4 mt-1">Forgot your password?</p>}
+                    {mode === "login" && (
+                        <p
+                            onClick={() => setMode("forgot")}
+                            className="text-green-main text-xs mb-4 mt-1 cursor-pointer hover:underline"
+                        >
+                            Forgot your password?
+                        </p>
+                    )}
 
                     {/* Button */}
                     <motion.button
@@ -243,9 +259,150 @@ const Signup = () => {
                         {isLogin ? "Log in" : "Sign up"}
                     </motion.button>
                 </motion.div>
+
+                <AnimatePresence mode="wait">
+                    {/* Forgot Password Mode */}
+                    {mode === "forgot" && (
+                        <motion.div
+                            key="forgot"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.4 }}
+                            className="flex flex-col gap-3"
+                        >
+                            <h3 className="text-lg font-semibold text-center mt-4">Reset your password</h3>
+                            <p className="text-sm text-gray-600 text-center">
+                                Enter your email address, and we’ll send you a reset code.
+                            </p>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Enter your registered email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="border placeholder:text-xs outline-green-main hover:border-green-main border-gray-200 p-2 rounded-md"
+                            />
+
+                            <button
+                                type="button"
+                                disabled={loading}
+                                onClick={async () => {
+                                    if (!formData.email) return toast.error("Please enter your email");
+                                    setLoading(true);
+                                    try {
+                                        const res = await fetch(`${API_URL}/auth/forgot-password`, {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json" },
+                                            body: JSON.stringify({ email: formData.email }),
+                                        });
+                                        const data = await res.json();
+
+                                        if (!res.ok) throw new Error(data.msg || "Something went wrong");
+                                        toast.success(data.msg || "OTP sent to email");
+                                        setMode("verify"); // 👈 switch to OTP verification
+                                    } catch (err: any) {
+                                        toast.error(err.message);
+                                    } finally {
+                                        setLoading(false);
+                                    }
+                                }}
+                                className="bg-green-main text-black font-bold py-2 rounded-md hover:opacity-90 transition"
+                            >
+                                Send Reset Link
+                            </button>
+
+
+                            <p
+                                onClick={() => setMode("login")}
+                                className="text-green-main text-xs text-center mt-2 cursor-pointer hover:underline"
+                            >
+                                Back to Login
+                            </p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+                {/* OTP Verification Mode */}
+                {mode === "verify" && (
+                    <motion.div
+                        key="verify"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                        className="flex flex-col gap-3"
+                    >
+                        <h3 className="text-lg font-semibold text-center mt-4">Enter OTP</h3>
+                        <p className="text-sm text-gray-600 text-center">
+                            Enter the 6-digit code sent to your email and your new password.
+                        </p>
+
+                        <input
+                            type="text"
+                            name="otp"
+                            placeholder="Enter OTP"
+                            onChange={handleChange}
+                            className="border placeholder:text-xs outline-green-main hover:border-green-main border-gray-200 p-2 rounded-md"
+                        />
+
+                        <input
+                            type="password"
+                            name="newPassword"
+                            placeholder="Enter new password"
+                            onChange={handleChange}
+                            className="border placeholder:text-xs outline-green-main hover:border-green-main border-gray-200 p-2 rounded-md"
+                        />
+
+                        <button
+                            type="button"
+                            disabled={loading}
+                            onClick={async () => {
+                                setLoading(true);
+                                try {
+                                    const verifyRes = await fetch(`${API_URL}/auth/verify-otp`, {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                            otp: formData.otp,
+                                            newPassword: formData.newPassword,
+                                            confirmPassword: formData.newPassword, // ✅ include confirm password
+                                        }),
+                                    });
+
+                                    const verifyData = await verifyRes.json();
+                                    if (!verifyRes.ok) throw new Error(verifyData.msg || "Invalid OTP");
+
+                                    toast.success(verifyData.msg || "Password reset successful!");
+
+                                    // ✅ After success: close modal and go to login
+                                    setTimeout(() => {
+                                        setMode("login");
+                                        if (typeof onClose === "function") onClose();
+                                    }, 2000);
+                                } catch (err: any) {
+                                    toast.error(err.message);
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }}
+                            className="bg-green-main text-black font-bold py-2 rounded-md hover:opacity-90 transition"
+                        >
+                            Confirm Reset
+                        </button>
+
+                        <p
+                            onClick={() => setMode("login")}
+                            className="text-green-main text-xs text-center mt-2 cursor-pointer hover:underline"
+                        >
+                            Back to Login
+                        </p>
+                    </motion.div>
+                )}
+
+
             </motion.form>
         </div>
     );
 };
-
 export default Signup;

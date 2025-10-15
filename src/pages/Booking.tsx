@@ -1,14 +1,13 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Profile from '../components/Profile'
-import RecentActivities from '../components/RecentActivities'
-import { booking_ride, my_booking, support } from '../assets'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Profile from '../components/Profile';
+import RecentActivities from '../components/RecentActivities';
+import { booking_ride, my_booking, support } from '../assets';
+import { useNavigate } from 'react-router-dom';
 
-const Booking:React.FC = () => {
-
-  const navigate = useNavigate()
+const Booking: React.FC = () => {
+  const navigate = useNavigate();
   const linkPage = [
     {
       image: booking_ride,
@@ -28,34 +27,45 @@ const Booking:React.FC = () => {
       disc: "Get help anytime",
       link: "contact"
     },
-  ]
-  return (
+  ];
 
+  return (
     <div>
       <Navbar />
 
-      <div className='p-4'>
-        <Profile />
+      <div className="p-4 lg:p-8 lg:min-h-[80vh] lg:px-16">
+        <div className="lg:grid lg:grid-cols-3 lg:gap-8">
+          {/* Left side: Profile + Links */}
+          <div className="lg:col-span-1 space-y-4">
+            <Profile />
 
-        <div className='my-4 gap-4 grid'>
-          {
-            linkPage.map((link, idx) => (
-              <div key={idx} onClick={() => navigate(`${link.link}`)} className='bg-[#F1FCE6] border flex justify-start gap-4 border-[#4FA000] p-4 rounded-xl'>
-                <img src={link.image} alt="" />
-                <div className='space-y-1'>
-                  <p className='text-sm'>{link.text}</p>
-                  <p className='text-xs text-[#61656B]'>{link.disc}</p>
+            <div className="my-4 gap-4 grid">
+              {linkPage.map((link, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => navigate(`${link.link}`)}
+                  className="bg-[#F1FCE6] border flex justify-start gap-4 border-[#4FA000] p-4 rounded-xl cursor-pointer hover:shadow-md transition-all duration-200"
+                >
+                  <img src={link.image} alt="" className="w-10 h-10 object-contain" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">{link.text}</p>
+                    <p className="text-xs text-[#61656B]">{link.disc}</p>
+                  </div>
                 </div>
-              </div>
-            ))
-          }
-        </div>
+              ))}
+            </div>
+          </div>
 
-        <RecentActivities />
+          {/* Right side: Recent activities */}
+          <div className="lg:col-span-2">
+            <RecentActivities />
+          </div>
+        </div>
       </div>
+
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Booking
+export default Booking;

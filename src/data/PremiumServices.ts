@@ -1,0 +1,40 @@
+import { pb1, pb2, pb3 } from "../assets";
+
+export const premiumServiceDetiail = [
+  {
+    image: pb1,
+    title: "Premium Option",
+    model: "Range Rover Jeep",
+    year: 2011,
+    passenger: "3",
+    LuggageCapacity: "2",
+    timelyPickup: "₦50,000",
+    fullDay: "₦150,000",
+    additionalHour: "₦20,000",
+    airportTransfer: "₦50,000",
+  },
+  {
+    image: pb2,
+    title: "Premium Option",
+    model: "Nissan Pathfinder",
+    year: 2014,
+    passenger: "4",
+    LuggageCapacity: "4",
+    timelyPickup: "₦30,000",
+    fullDay: "₦120,000",
+    additionalHour: "₦10,000",
+    airportTransfer: "₦50,000",
+  },
+  {
+    image: pb3,
+    title: "Premium Option",
+    model: "Toyota Sienna",
+    year: 2015,
+    passenger: "5",
+    LuggageCapacity: "4",
+    timelyPickup: "₦20,000",
+    fullDay: "₦100,000",
+    additionalHour: "₦10,000",
+    airportTransfer: "₦40,000",
+  },
+];

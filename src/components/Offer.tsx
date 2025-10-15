@@ -1,34 +1,35 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { wo1, wo2, wo3 } from "../assets";
 
 const offers = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
-    title: "Fast & Reliable Rides",
+      wo1,
+    title: "EXECUTIVE AIRPORT TRANSFERS",
     description:
-      "Book your ride within seconds and reach your destination safely and on time.",
+      "private luxury vehicles with professional punctual drivers.",
   },
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80",
-    title: "Friendly Drivers",
+      wo2,
+    title: "HOTEL &MEETING ASSISTANCE",
     description:
-      "Our professional drivers ensure comfort, courtesy, and a smooth experience every time.",
+      "Concierge services for lodging and business centre needs.",
   },
   {
     id: 3,
     image:
-      "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80",
-    title: "Safe & Secure",
+      wo3,
+    title: "CONFIDENTIAL & RELIABLE",
     description:
-      "Your safety is our top priority, with trusted drivers and a reliable booking system.",
+      "We understand the importance of privacy for international executives.",
   },
 ];
 
-const Offer:React.FC = () => {
+const Offer: React.FC = () => {
   return (
     <div className="py-24 px-6 md:px-12 bg-gray-50">
       <h2 className="text-center text-2xl md:text-3xl font-bold text-green-900 mb-12">
