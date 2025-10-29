@@ -15,6 +15,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthModalProvider, useAuthModal } from "./components/AuthModalProvider";
 import Signup from "./components/Signup";
 
+// ✅ Import Booking Context and Banner
+import { BookingProvider } from "./components/BookingContext";
+import GlobalBookingBanner from "./components/GlobalBookingBanner";
+import CurrentBooking from "./pages/CurrentBooking";
+
 function AppContent() {
   const { isOpen, closeModal } = useAuthModal();
 
@@ -27,6 +32,7 @@ function AppContent() {
         </div>
       )}
 
+      {/* Routes */}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -39,6 +45,7 @@ function AppContent() {
         <Route path="/booking/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         <Route path="/booking/contact" element={<ProtectedRoute><ContactSupport /></ProtectedRoute>} />
         <Route path="/booking/book" element={<ProtectedRoute><BookingDetails /></ProtectedRoute>} />
+        <Route path="/booking/book/:_id" element={<ProtectedRoute><CurrentBooking /></ProtectedRoute>} />
         <Route path="/booking/book/cartype" element={<ProtectedRoute><SelectCar /></ProtectedRoute>} />
         <Route path="/booking/book/cartype/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
       </Routes>
@@ -64,9 +71,13 @@ function AppContent() {
 function App() {
   return (
     <AuthModalProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <BookingProvider>
+        <BrowserRouter>
+          {/* ✅ Global Banner visible across all pages */}
+          <GlobalBookingBanner />
+          <AppContent />
+        </BrowserRouter>
+      </BookingProvider>
     </AuthModalProvider>
   );
 }

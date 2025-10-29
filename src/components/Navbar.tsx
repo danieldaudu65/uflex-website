@@ -286,7 +286,7 @@ const Navbar: React.FC = () => {
                                 key={index}
                                 className="flex gap-3 bg-gray-50 p-3 rounded-lg hover:bg-green-50  transition"
                               >
-                                <img src= {item.image} className="w-6 self-start" alt="" />
+                                <img src={item.image} className="w-6 self-start" alt="" />
                                 <div>
 
                                   <p className="font-semibold text-black/60 mb">{item.heading}</p>
@@ -324,14 +324,17 @@ const Navbar: React.FC = () => {
               </motion.li>
             </motion.ul>
 
-            <motion.img
-              src={whatsapp}
-              alt="WhatsApp"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="w-12 h-12 absolute right-8 bottom-8 cursor-pointer hover:scale-110 transition-transform"
-            />
+            <a href="https://wa.me/2348112159041" target="_blank">
+
+              <motion.img
+                src={whatsapp}
+                alt="WhatsApp"
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="w-34 absolute right-8 bottom-40 cursor-pointer hover:scale-110 transition-transform"
+              />
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

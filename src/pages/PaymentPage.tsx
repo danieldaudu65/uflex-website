@@ -8,12 +8,17 @@ import ConfirmButton from "../components/ConfirmButton";
 import BookingSuccessModal from "../components/BookingSuccessModal";
 import { apiRequest } from "../utils/api";
 import { toast } from "react-hot-toast";
+import ModalWrapper from "../components/modalParent";
 
 const PaymentPage: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [booking, setBooking] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
+
+  const [showPolicy, setShowPolicy] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+
 
   const storedBooking = localStorage.getItem("bookingData");
   const bookingData = storedBooking ? JSON.parse(storedBooking) : null;
@@ -153,8 +158,11 @@ const PaymentPage: React.FC = () => {
       return { label: "Confirming...", action: () => { }, disabled: true };
     if (booking?.paymentStatus === "paid")
       return { label: "Payment Confirmed ✅", action: () => { }, disabled: true };
-    return { label: "Confirm Payment", action: handleConfirmPayment, disabled: loading };
+
+    // 🔹 Instead of directly calling payment, open policy first
+    return { label: "Confirm Payment", action: () => setShowPolicy(true), disabled: loading };
   };
+
 
   const { label, action, disabled } = getButtonState();
 
@@ -179,6 +187,55 @@ const PaymentPage: React.FC = () => {
         </div>
       </div>
       {modal && <BookingSuccessModal onClose={() => setModal(false)} />}
+      {showPolicy && (
+        <ModalWrapper isOpen onClose={() => setShowPolicy(false)}>
+
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative">
+              <h2 className="text-lg font-semibold mb-3">Refund and Cancellation Policy</h2>
+              <ul className="text-sm text-gray-700 list-disc pl-5 space-y-2 mb-4">
+                <li>Refund and cancellation requests are valid only within 72 hours of booking.</li>
+                <li>Cancellations made after the 72-hour window are not eligible for a refund.</li>
+                <li>Clients who cancel within the validity period may reschedule their trip(s) within two (2) weeks from the date of cancellation.</li>
+                <li>Clients who fail to reschedule within these two weeks will incur a 25% administrative fee, which will be deducted from the initial payment. The remaining balance will then be refunded to the client.</li>
+              </ul>
+
+              <div className="flex items-center mb-4">
+                <input
+                  type="checkbox"
+                  id="agree"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  className="mr-2"
+                />
+                <label htmlFor="agree" className="text-sm">I agree to the policy terms above</label>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowPolicy(false)}
+                  className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  disabled={!agreed}
+                  onClick={() => {
+                    setShowPolicy(false);
+                    handleConfirmPayment();
+                  }}
+                  className={`px-4 py-2 text-sm rounded text-white ${agreed ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
+                    }`}
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </ModalWrapper>
+      )}
+
       <Footer />
     </div>
   );

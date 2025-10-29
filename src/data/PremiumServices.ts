@@ -3,11 +3,11 @@ import { pb1, pb2, pb3 } from "../assets";
 export const premiumServiceDetiail = [
   {
     image: pb1,
-    title: "Premium Option",
+    title: "VIP Luxury Options",
     model: "Range Rover Jeep",
     year: 2011,
     passenger: "3",
-    LuggageCapacity: "2",
+    LuggageCapacity: "3",
     timelyPickup: "₦50,000",
     fullDay: "₦150,000",
     additionalHour: "₦20,000",
@@ -27,7 +27,7 @@ export const premiumServiceDetiail = [
   },
   {
     image: pb3,
-    title: "Premium Option",
+    title: "Budget-Friendly Options",
     model: "Toyota Sienna",
     year: 2015,
     passenger: "5",

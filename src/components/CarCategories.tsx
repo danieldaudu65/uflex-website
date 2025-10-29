@@ -42,7 +42,7 @@ const CarCategories: React.FC = () => {
             cars: [
                 { name: "Range Rover Jeep", image: rangerover },
                 { name: "Lexus Rs350 Jeep", image: LexusJeep },
-                { name: "Range Rover Pado", image: pado },
+                { name: "Toyota Land Cruiser Prado", image: pado },
             ],
         },
     ];

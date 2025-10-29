@@ -1,7 +1,11 @@
 import React from "react";
 import { homeimg } from "../assets";
 
-const Landing:React.FC = () => {
+interface LandingProps {
+  onGetStarted: () => void;
+}
+
+const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
   return (
     <section className="bg-green-secondary py-12">
       <div className="container mx-auto flex flex-col md:flex-row items-center px-6 md:px-12 gap-8">
@@ -16,7 +20,10 @@ const Landing:React.FC = () => {
             made simply for you.
           </p>
 
-          <button className="bg-green-main text-white font-medium rounded-lg px-6 py-3 mt-6 hover:bg-green-700 transition">
+          <button
+            onClick={onGetStarted}
+            className="bg-green-main text-white font-medium rounded-lg px-6 py-3 mt-6 hover:bg-green-700 transition"
+          >
             Get Started
           </button>
         </div>

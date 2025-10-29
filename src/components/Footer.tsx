@@ -13,7 +13,8 @@ const Footer: React.FC = () => {
             <img src={logo} alt="U-Flex Logo" className="h-10 md:h-12 w-auto" />
             <div className="text-sm md:text-base space-y-2 mt-4 max-w-sm text-gray-700">
               <p>Get fast and trusted rides near you.</p>
-              <p className="font-semibold text-gray-900">+234 707 375 792</p>
+              <p className="font-semibold text-gray-900">+234 707 375 6792</p>
+              <p className="font-semibold text-gray-900">+234 811 215 9041</p>
               <p className="text-xs md:text-sm text-gray-500">
                 © 2025 U-Flex Shuttle Services Ltd. All Rights Reserved.
               </p>

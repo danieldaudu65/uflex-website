@@ -1,36 +1,71 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { arrow_left, car_icon } from "../assets";
+import { arrow_left } from "../assets";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-interface CarType {
-  car: string;
-  amount?: string;
+// Sample images (import yours)
+import { sienna, camry, corrola, nissan, lexus, rangerover, LexusJeep, pado } from "../assets";
+
+interface Car {
+  name: string;
+  image: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+  cars: Car[];
 }
 
 const SelectCar: React.FC = () => {
   const navigate = useNavigate();
   const [note, setNote] = useState("");
+  const [selectedCar, setSelectedCar] = useState<string | null>(null);
 
-  const cartyp: CarType[] = [
-    { car: "Range Rover" },
-    { car: "Pathfinder" },
-    { car: "Toyota Camry" },
-    { car: "Range Rover (Luxury)" },
+  const categories: Category[] = [
+    {
+      id: 1,
+      name: "Budget-Friendly",
+      cars: [
+        { name: "Toyota Sienna", image: sienna },
+        { name: "Toyota Camry", image: camry },
+        { name: "Toyota Corolla", image: corrola },
+      ],
+    },
+    {
+      id: 2,
+      name: "Premium",
+      cars: [
+        { name: "Nissan Pathfinder", image: nissan },
+        { name: "Lexus ES330", image: lexus },
+      ],
+    },
+    {
+      id: 3,
+      name: "VIP Luxury",
+      cars: [
+        { name: "Range Rover Jeep", image: rangerover },
+        { name: "Lexus RS350 Jeep", image: LexusJeep },
+        { name: "Toyota Land Cruiser Prado", image: pado },
+      ],
+    },
   ];
 
-  const handleSelectCar = (car: CarType) => {
-    const bookingData = JSON.parse(localStorage.getItem("bookingData") || "{}");
+  const handleSelectCar = (car: Car) => {
+    setSelectedCar(car.name);
 
+    const bookingData = JSON.parse(localStorage.getItem("bookingData") || "{}");
     const finalBooking = {
       ...bookingData,
-      vehicle: car.car,
-      totalPrice: "-", // placeholder for now
+      vehicle: car.name,
+      totalPrice: "-",
       notes: note,
     };
-
     localStorage.setItem("bookingData", JSON.stringify(finalBooking));
+
+    toast.success(`${car.name} selected`);
     navigate("payment");
   };
 
@@ -56,28 +91,39 @@ const SelectCar: React.FC = () => {
             </div>
           </div>
 
-          {/* Car Types */}
-          <div className="border border-gray-200 p-4 md:p-6 mb-4 rounded-xl">
-            <p className="text-sm md:text-base font-medium">Car Type</p>
+          {/* Car Categories */}
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="border border-gray-200 p-4 md:p-6 mb-6 rounded-xl"
+            >
+              <p className="text-sm md:text-base font-semibold mb-3">
+                {category.name}
+              </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 my-3">
-              {cartyp.map((car, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleSelectCar(car)}
-                  className="hover:border-[#4FA000] cursor-pointer flex gap-3 md:gap-4 items-start p-4 rounded-xl border border-[#EBECED] bg-[#F1FCE64D] hover:shadow-md transition-all"
-                >
-                  <img src={car_icon} alt={car.car} className="w-8 md:w-10" />
-                  <div className="space-y-1">
-                    <p className="text-sm md:text-base font-medium">
-                      {car.car}
-                    </p>
-                    <p className="text-[#3D7C00] text-xs md:text-sm">-</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {category.cars.map((car, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleSelectCar(car)}
+                    className={`cursor-pointer flex gap-3 items-center p-4 rounded-xl border transition-all 
+                      ${
+                        selectedCar === car.name
+                          ? "border-[#4FA000] bg-[#F1FCE64D]"
+                          : "border-[#EBECED] bg-[#F9FAFB]"
+                      }`}
+                  >
+                    <img
+                      src={car.image}
+                      alt={car.name}
+                      className="w-10 h-10 object-contain rounded-md"
+                    />
+                    <p className="text-sm md:text-base font-medium">{car.name}</p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
 
           {/* Additional Note */}
           <div className="border border-gray-200 p-4 md:p-6 rounded-xl">

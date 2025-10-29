@@ -33,19 +33,26 @@ const Testimonials: React.FC = () => {
     infinite: true,
     autoplay: true,
     speed: 600,
-    slidesToShow: 2, // Default for desktop
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     responsive: [
       {
-        breakpoint: 1024, // tablets & small laptops
+        breakpoint: 1024, // tablets
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 850, // 👈 iPhone 12 width after DPR scaling
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 640, // mobile
+        breakpoint: 640, // extra safety
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -53,6 +60,7 @@ const Testimonials: React.FC = () => {
       },
     ],
   };
+
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-10 bg-gray-50">
@@ -83,9 +91,8 @@ const Testimonials: React.FC = () => {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span
                       key={i}
-                      className={`text-lg ${
-                        i < t.rating ? "text-yellow-400" : "text-gray-300"
-                      }`}
+                      className={`text-lg ${i < t.rating ? "text-yellow-400" : "text-gray-300"
+                        }`}
                     >
                       ★
                     </span>

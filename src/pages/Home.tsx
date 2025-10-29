@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Navbar from '../components/Navbar'
 import Landing from '../components/Landing'
 import Footer from '../components/Footer'
@@ -8,12 +8,20 @@ import Offer from '../components/Offer'
 import CarCategories from '../components/CarCategories'
 
 const Home: React.FC = () => {
+
+    const carSectionRef = useRef<HTMLDivElement | null>(null);
+
+    const scrollToCars = () => {
+        carSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
     return (
         <>
             <Navbar />
-            <Landing />
+            <Landing onGetStarted={scrollToCars} />
             <Offer />
-            <CarCategories />
+            <div ref={carSectionRef}>
+                <CarCategories />
+            </div>
             <Testimonials />
             <NewsLetter />
             <Footer />

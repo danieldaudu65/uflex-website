@@ -18,19 +18,19 @@ const ContactSupport: React.FC = () => {
     {
       title: "Speak",
       description: "Speak directly with our team",
-      contacts: ["+234 707375792", "+234 8112159041"],
+      contacts: ["+2347073756792", "+2348112159041"],
       image: support,
     },
     {
       title: "WhatsApp",
       description: "Chat with us on WhatsApp",
-      contacts: ["+234 8023345567"],
+      contacts: ["+2348112159041"],
       image: whatsappC,
     },
     {
       title: "Email",
       description: "Send us a quick email",
-      contacts: ["support@example.com"],
+      contacts: ["uflexshuttleservice@gmail.com"],
       image: mailc,
     },
   ];
@@ -68,10 +68,51 @@ const ContactSupport: React.FC = () => {
                     {option.title}
                   </p>
                   <p className="text-[#61656B] text-sm">{option.description}</p>
-                  <div className="text-[#61656B] text-xs sm:text-sm">
-                    {option.contacts.map((c, i) => (
-                      <p key={i}>{c}</p>
-                    ))}
+                  <div className="text-[#61656B] text-xs sm:text-sm space-y-1">
+                    {option.contacts.map((c, i) => {
+                      if (!c) return null;
+
+                      if (option.title === "Speak") {
+                        return (
+                          <a
+                            key={i}
+                            href={`tel:${c}`}
+                            className="block hover:text-green-600 transition-colors duration-150"
+                          >
+                            {c}
+                          </a>
+                        );
+                      }
+
+                      if (option.title === "WhatsApp") {
+                        const num = c.replace(/\D/g, "");
+                        return (
+                          <a
+                            key={i}
+                            href={`https://wa.me/${num}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block hover:text-green-600 transition-colors duration-150"
+                          >
+                            {c}
+                          </a>
+                        );
+                      }
+
+                      if (option.title === "Email") {
+                        return (
+                          <a
+                            key={i}
+                            href={`mailto:${c}`}
+                            className="block hover:text-green-600 transition-colors duration-150"
+                          >
+                            {c}
+                          </a>
+                        );
+                      }
+
+                      return <p key={i}>{c}</p>;
+                    })}
                   </div>
                 </div>
               </div>

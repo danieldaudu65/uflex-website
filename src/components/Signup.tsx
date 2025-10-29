@@ -37,7 +37,6 @@ const Signup: React.FC<SignupProps> = ({ onClose }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -57,30 +56,29 @@ const Signup: React.FC<SignupProps> = ({ onClose }) => {
             const data = await res.json();
 
             if (!res.ok) {
-                setTimeout(() => toast.error(data.msg || "Something went wrong"), 5000);
+                toast.error(data.msg || "Something went wrong");
                 return;
             }
-            setTimeout(() => {
-                toast.success(data.msg);
-                if (isLogin && data.token) {
-                    // ✅ Login success
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    if (typeof onClose === "function") onClose();
-                    navigate("/booking");
-                } else if (!isLogin) {
-                    // ✅ Signup success → switch to login form
-                    setIsLogin(true);
-                }
-            }, 5000);
+
+            toast.success(data.msg);
+
+            if (isLogin && data.token) {
+                // ✅ Login success
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                if (typeof onClose === "function") onClose();
+                navigate("/booking");
+            } else if (!isLogin) {
+                // ✅ Signup success → switch to login form
+                setIsLogin(true);
+            }
 
         } catch (err: any) {
-            setTimeout(() => toast.error(err.message), 5000);
+            toast.error(err.message);
         } finally {
-            setTimeout(() => setLoading(false), 5000);
+            setLoading(false);
         }
     };
-
 
     // Animation
     const sideVariants = {
@@ -102,7 +100,8 @@ const Signup: React.FC<SignupProps> = ({ onClose }) => {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
             >
                 {/* close button */}
-                <img src={times} alt="" className="absolute right-4 top-3 cursor-pointer" />
+                <img src={times} alt="" onClick={onClose}
+                    className="absolute right-4 top-3 cursor-pointer" />
                 {/* logo */}
                 <img src={once} alt="" className="mt-6 w-full" />
 
