@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { ig, logo, tiktok,  fb, wp } from "../assets";
+import { ig, logo, tiktok, fb, wp } from "../assets";
 
 const Footer: React.FC = () => {
   return (
@@ -22,6 +22,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Links */}
+          {/* Links */}
           <div className="flex-1 md:flex md:justify-center">
             <div className="flex flex-col gap-2 text-sm md:text-base text-center md:text-left">
               <RouterLink
@@ -30,26 +31,37 @@ const Footer: React.FC = () => {
               >
                 Blog
               </RouterLink>
-              {/* <RouterLink
-                to="/services"
-                className="text-gray-600 hover:text-green-main transition-colors"
-              >
-                Services
-              </RouterLink> */}
+
               <RouterLink
                 to="/about"
                 className="text-gray-600 hover:text-green-main transition-colors"
               >
                 About
               </RouterLink>
+
               <RouterLink
                 to="/contact"
                 className="text-gray-600 hover:text-green-main transition-colors"
               >
                 Contact Us
               </RouterLink>
+
+              {/* ✅ Added new links */}
+              <RouterLink
+                to="/policy-privacy"
+                className="text-gray-600 hover:text-green-main transition-colors"
+              >
+                Privacy Policy
+              </RouterLink>
+              <RouterLink
+                to="/schedule"
+                className="text-gray-600 hover:text-green-main transition-colors"
+              >
+                Schedule A
+              </RouterLink>
             </div>
           </div>
+
 
           {/* Socials */}
           <div className="flex-1 md:flex md:justify-end">

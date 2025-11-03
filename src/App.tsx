@@ -19,6 +19,8 @@ import Signup from "./components/Signup";
 import { BookingProvider } from "./components/BookingContext";
 import GlobalBookingBanner from "./components/GlobalBookingBanner";
 import CurrentBooking from "./pages/CurrentBooking";
+import PolicyPage from "./pages/PolicyPage";
+import ScheduleA from "./pages/ScheduleA";
 
 function AppContent() {
   const { isOpen, closeModal } = useAuthModal();
@@ -39,6 +41,8 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/policy-privacy" element={<PolicyPage />} />
+        <Route path="/schedule" element={<ScheduleA />} />
 
         {/* Protected Routes */}
         <Route path="/booking" element={<ProtectedRoute><Booking /></ProtectedRoute>} />

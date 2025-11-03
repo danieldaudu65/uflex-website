@@ -10,7 +10,7 @@ const GlobalBookingSignal = () => {
 
   // ✅ Hide the signal if you're already viewing the ongoing booking page
   const isCurrentBookingPage =
-  (  location.pathname === `/booking/book/${ongoingBooking._id}`) || location.pathname === `/booking`;
+    (location.pathname === `/booking/book/${ongoingBooking._id}`) || (location.pathname === `/booking`) || location.pathname === '/booking/history';
 
   if (isCurrentBookingPage) return null;
 
